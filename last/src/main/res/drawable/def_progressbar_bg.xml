@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--总进度-->
+    <item android:id="@android:id/background">
+        <shape>
+            <corners android:radius="10dp" />
+            <solid android:color="#ffffff" />
+        </shape>
+    </item>
+    <!--缓冲的进度-->
+    <item android:id="@android:id/secondaryProgress">
+        <clip>
+            <shape>
+                <corners android:radius="10dp" />
+                <solid android:color="#8cc9f4" />
+            </shape>
+        </clip>
+    </item>
+    <!--当前的进度-->
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <corners android:radius="10dp" />
+                <solid android:color="#3d50ff" />
+            </shape>
+        </clip>
+    </item>
+</layer-list>

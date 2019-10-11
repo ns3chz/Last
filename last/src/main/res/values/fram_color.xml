@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="grid_select_item_textcolor_selected">#39a1ff</color>
+    <color name="grid_select_item_textcolor_unselected">#9a9a9a</color>
+
+    <color name="gray_d0">#FFFFFF</color>
+    <color name="gray_d0_5">#F3F3F3</color>
+    <color name="gray_d1">#E6E6E6</color>
+    <color name="gray_d2">#CCCCCC</color>
+    <color name="gray_d3">#B3B3B3</color>
+    <color name="gray_d4">#999999</color>
+    <color name="gray_d5">#808080</color>
+    <color name="gray_d6">#666666</color>
+    <color name="gray_d7">#4C4C4C</color>
+    <color name="gray_d8">#333333</color>
+    <color name="gray_d9">#000000</color>
+</resources>

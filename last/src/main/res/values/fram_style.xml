@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme_Dialog" parent="Theme.AppCompat.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionModeOverlay">false</item>
+
+        <!-- Window attributes -->
+        <item name="android:windowBackground">@drawable/screen_background_selector_dark
+        </item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowShowWallpaper">false</item>
+        <!--<item name="android:windowTitleStyle">@android:style/WindowTitle</item>-->
+        <item name="android:windowTitleSize">25dip</item>
+        <!--<item name="android:windowTitleBackgroundStyle">@android:style/WindowTitleBackground</item>-->
+        <item name="android:windowAnimationStyle">@android:style/Animation.Activity</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustUnspecified</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <!--<item name="android:windowActionBarFullscreenDecorLayout">@layout/screen_action_bar</item>-->
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowActionModeOverlay">true</item>
+
+        <!-- Api jelly_bean_mr2 -->
+        <item name="android:windowOverscan" tools:targetApi="jelly_bean_mr2">false</item>
+
+        <!-- Api kitkat -->
+        <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">false</item>
+        <item name="android:windowTranslucentNavigation" tools:targetApi="kitkat">false</item>
+        <!--<item name="android:windowSwipeToDismiss" tools:targetApi="kitkat_watch">-->
+            <!--@android:bool/config_windowSwipeToDismiss-->
+        <!--</item>-->
+
+        <!-- Api lollipop -->
+        <!--<item name="android:windowElevation" tools:targetApi="lollipop">@android:dimen/floating_window_z</item>-->
+        <item name="android:windowClipToOutline" tools:targetApi="lollipop">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">false</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/black</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/black</item>
+        <item name="android:windowContentTransitions" tools:targetApi="lollipop">false</item>
+        <item name="android:windowActivityTransitions" tools:targetApi="lollipop">false</item>
+        <item name="android:windowEnterTransition" tools:targetApi="lollipop">
+            @android:transition/fade
+        </item>
+        <item name="android:windowSharedElementEnterTransition" tools:targetApi="lollipop">
+            @android:transition/move
+        </item>
+        <item name="android:windowSharedElementExitTransition" tools:targetApi="lollipop">
+            @android:transition/move
+        </item>
+
+        <!-- Api n -->
+        <item name="android:windowBackgroundFallback" tools:targetApi="n">
+            ?android:attr/colorBackground
+        </item>
+        <!--_____________________________________________________-->
+        <!-- Dialog attributes -->
+        <item name="android:dialogTheme" tools:targetApi="m">@android:style/ThemeOverlay.Material.Dialog</item>
+        <!--<item name="android:dialogPreferredPadding" tools:targetApi="lollipop_mr1">@android:dimen/dialog_padding_material</item>-->
+        <!--<item name="android:dialogCornerRadius">@android:dimen/dialog_corner_radius</item>-->
+
+        <!-- AlertDialog attributes -->
+        <item name="android:alertDialogTheme" tools:targetApi="m">@android:style/ThemeOverlay.Material.Dialog.Alert</item>
+        <!--<item name="android:alertDialogStyle">@android:style/AlertDialog.Material</item>-->
+        <!--<item name="android:alertDialogIcon">@android:drawable/ic_dialog_alert_material</item>-->
+
+        <!--_____________________________________________________-->
+        <item name="android:colorBackground">?android:attr/colorBackgroundFloating</item>
+
+        <item name="android:colorBackgroundCacheHint">@null</item>
+
+        <item name="android:listPreferredItemPaddingLeft">?android:attr/dialogPreferredPadding</item>
+        <item name="android:listPreferredItemPaddingRight">?android:attr/dialogPreferredPadding</item>
+        <item name="android:listPreferredItemPaddingStart">?android:attr/dialogPreferredPadding</item>
+        <item name="android:listPreferredItemPaddingEnd">?android:attr/dialogPreferredPadding</item>
+
+        <item name="android:listDivider">@null</item>
+
+        <!--<item name="android:preferencePanelStyle">@android:style/PreferencePanel.Dialog</item>-->
+    </style>
+</resources>

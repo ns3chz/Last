@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <drawable name="trans">#00000000</drawable>
+    <drawable name="trans_dark">#40000000</drawable>
+    <drawable name="trans_light">#40ffffff</drawable>
+    <!--透明度-->
+    <drawable name="trans_light_100">#ffff</drawable>
+    <drawable name="trans_light_95">#f2ffffff</drawable>
+    <drawable name="trans_light_90">#e6ffffff</drawable>
+    <drawable name="trans_light_85">#d9ffffff</drawable>
+    <drawable name="trans_light_80">#ccffffff</drawable>
+    <drawable name="trans_light_75">#bfffffff</drawable>
+    <drawable name="trans_light_70">#b3ffffff</drawable>
+    <drawable name="trans_light_65">#a6ffffff</drawable>
+    <drawable name="trans_light_60">#99ffffff</drawable>
+    <drawable name="trans_light_55">#8cffffff</drawable>
+    <drawable name="trans_light_50">#80ffffff</drawable>
+    <drawable name="trans_light_45">#73ffffff</drawable>
+    <drawable name="trans_light_40">#66ffffff</drawable>
+    <drawable name="trans_light_35">#59ffffff</drawable>
+    <drawable name="trans_light_30">#4dffffff</drawable>
+    <drawable name="trans_light_25">#40ffffff</drawable>
+    <drawable name="trans_light_20">#33ffffff</drawable>
+    <drawable name="trans_light_15">#26ffffff</drawable>
+    <drawable name="trans_light_10">#1affffff</drawable>
+    <drawable name="trans_light_05">#0dffffff</drawable>
+    <drawable name="trans_light_00">#0fff</drawable>
+    <!---->
+    <drawable name="trans_dark_100">#f000</drawable>
+    <drawable name="trans_dark_95">#f2000000</drawable>
+    <drawable name="trans_dark_90">#e6000000</drawable>
+    <drawable name="trans_dark_85">#d9000000</drawable>
+    <drawable name="trans_dark_80">#cc000000</drawable>
+    <drawable name="trans_dark_75">#bf000000</drawable>
+    <drawable name="trans_dark_70">#b3000000</drawable>
+    <drawable name="trans_dark_65">#a6000000</drawable>
+    <drawable name="trans_dark_60">#99000000</drawable>
+    <drawable name="trans_dark_55">#8c000000</drawable>
+    <drawable name="trans_dark_50">#80000000</drawable>
+    <drawable name="trans_dark_45">#73000000</drawable>
+    <drawable name="trans_dark_40">#66000000</drawable>
+    <drawable name="trans_dark_35">#59000000</drawable>
+    <drawable name="trans_dark_30">#4d000000</drawable>
+    <drawable name="trans_dark_25">#40000000</drawable>
+    <drawable name="trans_dark_20">#33000000</drawable>
+    <drawable name="trans_dark_15">#26000000</drawable>
+    <drawable name="trans_dark_10">#1a000000</drawable>
+    <drawable name="trans_dark_05">#0d000000</drawable>
+    <drawable name="trans_dark_00">#0000</drawable>
+    <!--透明度-->
+</resources>

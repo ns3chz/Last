@@ -1,0 +1,67 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.jakewharton.butterknife'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    dataBinding{
+        enabled = true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation rootProject.ext.junit
+    androidTestImplementation rootProject.ext.test_runner
+    androidTestImplementation rootProject.ext.espresso_core
+
+    implementation rootProject.ext.appcompat
+    implementation rootProject.ext.constraintlayout
+
+    implementation rootProject.ext.support_design
+    implementation rootProject.ext.rxjava
+    implementation rootProject.ext.rxandroid
+    implementation rootProject.ext.gson
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+
+//    api 'com.jakewharton:butterknife:8.8.1'
+//    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation rootProject.ext.butterknife
+    annotationProcessor rootProject.ext.butterknife_compiler
+
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation project(path: ':zxing-core3.3.3')
+
+
+//    implementation 'androidx.appcompat:appcompat:1.0.2'
+//    implementation 'com.android.support:appcompat-v7:28.0.0'
+//    implementation 'com.android.support:design:28.0.0'
+//    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+//    implementation 'junit:junit:4.12'
+//    implementation 'androidx.test:runner:1.2.0'
+//    implementation 'androidx.test.espresso:espresso-core:3.2.0'
+//
+//    implementation 'io.reactivex.rxjava2:rxjava:2.1.14'
+//    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+//    implementation 'com.google.code.gson:gson:2.8.5'
+//    implementation 'com.jakewharton:butterknife:10.1.0'
+//    implementation 'com.jakewharton:butterknife-compiler:10.1.0'
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="digits_Decimal">0123456789.</string>
+    <string name="digits_Number">0123456789</string>
+    <string name="digits_Hex">0123456789abcdefABCDEF</string>
+</resources>

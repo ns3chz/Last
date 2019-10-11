@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="status_bar" type="id" />
+    <item name="selectTv" type="id" />
+    <item name="bitmap_tag" type="id" />
+</resources>

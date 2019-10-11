@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="view_tag_holder" type="id" />
+    <item name="view_tag_position" type="id" />
+    <item name="view_tag_holder_hf" type="id" />
+
+    <item name="tag_decor_child_check_retry" type="id" />
+    <item name="tag_decor_child_statusbar_below" type="id" />
+    <item name="tag_decor_child_navigation_below" type="id" />
+    <item name="tag_decor_child_statusbar_color" type="id" />
+    <item name="tag_decor_child_navigation_color" type="id" />
+</resources>

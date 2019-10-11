@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--透明度-->
+    <color name="trans_light_100">#ffff</color>
+    <color name="trans_light_95">#f2ffffff</color>
+    <color name="trans_light_90">#e6ffffff</color>
+    <color name="trans_light_85">#d9ffffff</color>
+    <color name="trans_light_80">#ccffffff</color>
+    <color name="trans_light_75">#bfffffff</color>
+    <color name="trans_light_70">#b3ffffff</color>
+    <color name="trans_light_65">#a6ffffff</color>
+    <color name="trans_light_60">#99ffffff</color>
+    <color name="trans_light_55">#8cffffff</color>
+    <color name="trans_light_50">#80ffffff</color>
+    <color name="trans_light_45">#73ffffff</color>
+    <color name="trans_light_40">#66ffffff</color>
+    <color name="trans_light_35">#59ffffff</color>
+    <color name="trans_light_30">#4dffffff</color>
+    <color name="trans_light_25">#40ffffff</color>
+    <color name="trans_light_20">#33ffffff</color>
+    <color name="trans_light_15">#26ffffff</color>
+    <color name="trans_light_10">#1affffff</color>
+    <color name="trans_light_05">#0dffffff</color>
+    <color name="trans_light_00">#0fff</color>
+    <!---->
+    <color name="trans_dark_100">#f000</color>
+    <color name="trans_dark_95">#f2000000</color>
+    <color name="trans_dark_90">#e6000000</color>
+    <color name="trans_dark_85">#d9000000</color>
+    <color name="trans_dark_80">#cc000000</color>
+    <color name="trans_dark_75">#bf000000</color>
+    <color name="trans_dark_70">#b3000000</color>
+    <color name="trans_dark_65">#a6000000</color>
+    <color name="trans_dark_60">#99000000</color>
+    <color name="trans_dark_55">#8c000000</color>
+    <color name="trans_dark_50">#80000000</color>
+    <color name="trans_dark_45">#73000000</color>
+    <color name="trans_dark_40">#66000000</color>
+    <color name="trans_dark_35">#59000000</color>
+    <color name="trans_dark_30">#4d000000</color>
+    <color name="trans_dark_25">#40000000</color>
+    <color name="trans_dark_20">#33000000</color>
+    <color name="trans_dark_15">#26000000</color>
+    <color name="trans_dark_10">#1a000000</color>
+    <color name="trans_dark_05">#0d000000</color>
+    <color name="trans_dark_00">#0000</color>
+    <!--透明度-->
+</resources>
