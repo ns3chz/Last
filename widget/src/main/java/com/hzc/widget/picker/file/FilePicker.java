@@ -52,7 +52,7 @@ public class FilePicker {
      * @param resultCode  返回码
      * @param data        返回数据
      */
-    private static void onObjectTagResult(@NonNull Object objTag, int requestCode, int resultCode, @Nullable Intent data) {
+    private static void onObjectTagResult(@NonNull Object objTag, int requestCode, int resultCode, Intent data) {
         for (FilePicker picker : filePickerSet) {
             if (picker == null) continue;
             if (requestCode != picker.requestCode) continue;//请求码
@@ -64,34 +64,34 @@ public class FilePicker {
                 if (!objTag.equals(picker.fragment)) continue;
             } else {
                 throw new RuntimeException("Tag : ( " + objTag.getClass().getCanonicalName() +
-                        " ) is not activity,fragment or androidx.fragment !!!");
+                        " ) is not activity,fragment or androidx.fragment.app.Fragment !!!");
             }
-
             switch (picker.uiParams.getChoiceMode()) {
                 case SINGLE:
                     if (picker.onSinglePickListener != null) {
-                        if (resultCode == FilePicker_ViewModel.RESULT_OK) {
-                            String result = data == null ? null : data.getStringExtra(FilePicker_ViewModel.RESULT_KEY);
-                            picker.onSinglePickListener.pick(result);
-                        } else if (resultCode == FilePicker_ViewModel.RESULT_CANCELED) {
-                            picker.onSinglePickListener.cancel();
+                        try {
+                            if (resultCode == FilePicker_ViewModel.RESULT_OK) {
+                                File result = (File) data.getSerializableExtra(FilePicker_ViewModel.RESULT_KEY);
+                                picker.onSinglePickListener.pick(result);
+                            } else if (resultCode == FilePicker_ViewModel.RESULT_CANCELED) {
+                                picker.onSinglePickListener.cancel();
+                            }
+                        } catch (Exception e) {
+                            picker.onSinglePickListener.exception(e);
                         }
                     }
-
                     break;
                 case MULTI:
                     if (picker.onMultiPickListener != null) {
-                        if (resultCode == FilePicker_ViewModel.RESULT_OK) {
-                            List<String> result;
-                            try {
-                                result = data == null ? null : (List<String>) data.getSerializableExtra(FilePicker_ViewModel.RESULT_KEY);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                result = null;
+                        try {
+                            if (resultCode == FilePicker_ViewModel.RESULT_OK) {
+                                List<File> result = (List<File>) data.getSerializableExtra(FilePicker_ViewModel.RESULT_KEY);
+                                picker.onMultiPickListener.pick(result);
+                            } else if (resultCode == FilePicker_ViewModel.RESULT_CANCELED) {
+                                picker.onMultiPickListener.cancel();
                             }
-                            picker.onMultiPickListener.pick(result);
-                        } else if (resultCode == FilePicker_ViewModel.RESULT_CANCELED) {
-                            picker.onMultiPickListener.cancel();
+                        } catch (Exception e) {
+                            picker.onMultiPickListener.exception(e);
                         }
                     }
                     break;
@@ -224,19 +224,29 @@ public class FilePicker {
     }
 
     public abstract static class OnSinglePickListener implements OnListener {
-        public abstract void pick(@Nullable String path);
+        public abstract void pick(@NonNull File file) throws Exception;
 
         @Override
-        public void cancel() {
+        public void cancel() throws Exception {
+
+        }
+
+        @Override
+        public void exception(@NonNull Exception e) {
 
         }
     }
 
     public abstract static class OnMultiPickListener implements OnListener {
-        public abstract void pick(@Nullable List<String> pathList);
+        public abstract void pick(@NonNull List<File> fileList) throws Exception;
 
         @Override
-        public void cancel() {
+        public void cancel() throws Exception {
+
+        }
+
+        @Override
+        public void exception(@NonNull Exception e) {
 
         }
     }
@@ -245,7 +255,9 @@ public class FilePicker {
         /**
          * 取消选择
          */
-        void cancel();
+        void cancel() throws Exception;
+
+        void exception(@NonNull Exception e);
     }
 
     public static void LOG_MSG() {

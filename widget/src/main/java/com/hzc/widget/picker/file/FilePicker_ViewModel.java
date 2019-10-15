@@ -135,24 +135,23 @@ public class FilePicker_ViewModel extends BaseViewModel {
                     case SINGLE:
                         try {
                             fileModelChoose = chooseList.get(0);
-                            intent.putExtra(RESULT_KEY, fileModelChoose.getData().getAbsolutePath());
+                            intent.putExtra(RESULT_KEY, fileModelChoose.getData());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
 
                         break;
                     case MULTI:
-                        ArrayList<String> pathList = new ArrayList<>();
+                        ArrayList<File> pathList = new ArrayList<>();
                         for (int i = 0; i < chooseList.size(); i++) {
                             try {
                                 fileModelChoose = chooseList.get(i);
-                                File data = fileModelChoose.getData();
-                                pathList.add(data.getAbsolutePath());
+                                pathList.add(fileModelChoose.getData());
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
-                        intent.putStringArrayListExtra(RESULT_KEY, pathList);
+                        intent.putExtra(RESULT_KEY, pathList);
                         break;
                     case NONE:
                         break;
@@ -161,7 +160,7 @@ public class FilePicker_ViewModel extends BaseViewModel {
                 break;
             case FOLDER:
                 File currentFile = uiParams.getCurrentFile();
-                intent.putExtra(RESULT_KEY, currentFile.getAbsolutePath());
+                intent.putExtra(RESULT_KEY, currentFile);
                 break;
         }
         Activity activity = wrActivity.get();

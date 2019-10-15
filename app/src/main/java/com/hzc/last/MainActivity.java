@@ -2,16 +2,17 @@ package com.hzc.last;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.hzc.widget.picker.file.FilePicker;
 import com.hzc.widget.picker.file.FilePickerUiParams;
 
+import java.io.File;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,12 +28,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FilePicker.build(MainActivity.this, 1)
-                        .setPickFileType(FilePickerUiParams.PickType.FOLDER)
+                        .setOpenFile(new File("sdcard/1/"))
+                        .setPickFileType(FilePickerUiParams.PickType.FILE)
                         .setSinglePick(new FilePicker.OnSinglePickListener() {
                             @Override
-                            public void pick(@Nullable String path) {
-                                tvResult.setText("单选 : \n" + path);
-                                Log.d("FilePicker", "pick path = " + path);
+                            public void pick(@NonNull File path) {
+                                tvResult.setText("单选 : \n" + path.getAbsolutePath());
                             }
 
                             @Override
@@ -42,14 +43,10 @@ public class MainActivity extends AppCompatActivity {
                         })
 //                        .setMultiPick(new FilePicker.OnMultiPickListener() {
 //                            @Override
-//                            public void pick(@Nullable List<String> pathList) {
+//                            public void pick(@NonNull List<File> pathList) {
 //                                StringBuilder path = new StringBuilder("多选：\n");
-//                                if (pathList != null) {
-//                                    for (int i = 0; i < pathList.size(); i++) {
-//                                        path.append(pathList.get(i)).append("\n\n");
-//                                    }
-//                                } else {
-//                                    path.append("空的");
+//                                for (int i = 0; i < pathList.size(); i++) {
+//                                    path.append(pathList.get(i).getAbsolutePath()).append("\n\n");
 //                                }
 //                                tvResult.setText(path.toString());
 //                            }
