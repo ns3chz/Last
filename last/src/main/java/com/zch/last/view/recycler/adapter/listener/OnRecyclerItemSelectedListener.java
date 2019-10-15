@@ -12,13 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.zch.last.view.recycler.model.ModelChoose;
 
-import java.util.List;
-
 public class OnRecyclerItemSelectedListener<VH extends RecyclerView.ViewHolder, T> {
     public OnRecyclerItemSelectedListener() {
     }
 
-    public void selected(@Nullable VH holder, @NonNull List<ModelChoose<T>> chooseList, @NonNull List<ModelChoose<T>> cancelList) {
+    public void selected(@Nullable VH holder, @NonNull ModelChoose<T> modelChoose, boolean isChoose) {
 //        Log.d(this.getClass(), "selected position: " + position + " ;data= " + JsonTools.parseObject2JsonString(data), new Object[0]);
     }
 }

@@ -47,8 +47,10 @@ import io.reactivex.schedulers.Schedulers;
 public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder, DATA> extends RecyclerView.Adapter<VH> implements View.OnClickListener, View.OnLongClickListener {
     @NonNull
     protected final List<DATA> dataList;
+    @Nullable
     private List<ModelChoose<DATA>> chooseList;
     private ChoiceMode choiceMode = ChoiceMode.NONE;//选择模式，多选或单选
+    @NonNull
     private ChoiceState choiceState = ChoiceState.NONE;//选中方式，select，check
     private RecyclerView.LayoutManager layoutManager;
 
@@ -117,32 +119,33 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder, DA
         }
         //
         boolean hadChoice = false;
-        if (chooseList != null) {//选中item
-            for (int i = 0; i < chooseList.size(); i++) {
-                ModelChoose<DATA> dataModelChoose = chooseList.get(i);
-                if (dataModelChoose.equals(position, data)) {
-                    hadChoice = true;
-                    break;
+        if (!ChoiceState.NONE.equals(choiceState)) {
+            if (chooseList != null) {//选中item
+                for (int i = 0; i < chooseList.size(); i++) {
+                    ModelChoose<DATA> dataModelChoose = chooseList.get(i);
+                    if (dataModelChoose.equals(position, data)) {
+                        hadChoice = true;
+                        break;
+                    }
                 }
-            }
 
-        } //
-        if (hadChoice) {
+            } //
             switch (choiceState) {//选中方式
                 case CHECKED:
-                    setViewChecked(holder.itemView, true);
+                    setViewChecked(holder.itemView, hadChoice);
                     break;
                 case SELECT:
-                    setViewSelected(holder.itemView, true);
+                    setViewSelected(holder.itemView, hadChoice);
                     break;
                 default:
-//                    setViewSelected(holder.itemView, true);
                     break;
             }
         } else {
             setViewChecked(holder.itemView, false);
             setViewSelected(holder.itemView, false);
         }
+        onBindChooseState(holder, position, choiceState, hadChoice);
+
         //
 
         if (onBindHolderListener != null) {
@@ -150,7 +153,14 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder, DA
         }
     }
 
-    private void setViewChecked(View view, boolean checked) {
+    /**
+     * 向提供选择状态刷新接口
+     */
+    public void onBindChooseState(@NonNull VH holder, int position, @NonNull ChoiceState choiceState, boolean hadChoice) {
+
+    }
+
+    protected void setViewChecked(View view, boolean checked) {
         if (view instanceof Checkable) {
             Checkable hiCheck = (Checkable) view;
             if (hiCheck.isChecked() != checked) {
@@ -159,11 +169,12 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder, DA
         }
     }
 
-    private void setViewSelected(View view, boolean selected) {
+    protected void setViewSelected(View view, boolean selected) {
         if (view.isSelected() != selected) {
             view.setSelected(selected);
         }
     }
+
 
     public void bindHolder(OnBindHolder<VH, DATA> listener) {
         this.onBindHolderListener = listener;
@@ -257,67 +268,61 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder, DA
         // 选择事件choice
         DATA data = dataList.get(position);
         List<ModelChoose<DATA>> mChooseList = getChooseList();
-        List<ModelChoose<DATA>> notifyChooseList = getNotifyChooseList();
-        List<ModelChoose<DATA>> notifyCancelList = getNotifyCancelList();
-        ModelChoose<DATA> cancelChoose;
-        ModelChoose<DATA> dataChoose;
+        ModelChoose<DATA> modelChoose;
+        boolean isChoose;
         switch (choiceMode) {
             case MULTI:
                 if (mChooseList.size() > 0) {
                     int choosePos = posHasChoose(position, data);
                     if (choosePos >= 0) {
-                        cancelChoose = mChooseList.get(choosePos);
-                        dataChoose = null;
+                        modelChoose = mChooseList.get(choosePos);
+                        isChoose = false;
                     } else {
-                        cancelChoose = null;
-                        dataChoose = new ModelChoose<>(position, data);
+                        modelChoose = new ModelChoose<>(position, data);
+                        isChoose = true;
                     }
                 } else {
-                    cancelChoose = null;
-                    dataChoose = new ModelChoose<>(position, data);
+                    isChoose = true;
+                    modelChoose = new ModelChoose<>(position, data);
                 }
                 //刷新item
-                if (cancelChoose != null) {
-                    mChooseList.remove(cancelChoose);
-                    notifyCancelList.add(cancelChoose);
-                    notifyItemChanged(cancelChoose.getPosition());
+                if (isChoose) {
+                    mChooseList.add(modelChoose);
+                } else {
+                    mChooseList.remove(modelChoose);
                 }
-                if (dataChoose != null) {
-                    mChooseList.add(dataChoose);
-                    notifyChooseList.add(dataChoose);
-                    notifyItemChanged(dataChoose.getPosition());
-                }
+                notifyItemChanged(modelChoose.getPosition());
                 //通知选择回调
                 if (trigger) {
-                    notifySelected(holder, notifyChooseList, notifyCancelList);
+                    notifySelected(holder, modelChoose, isChoose);
                 }
                 break;
             case SINGLE:
                 if (mChooseList.size() > 0) {
-                    cancelChoose = mChooseList.get(0);
-                    if (cancelChoose.equals(position, data)) {
-                        dataChoose = null;
+                    modelChoose = mChooseList.get(0);
+                    if (modelChoose.equals(position, data)) {
+                        isChoose = false;
                     } else {
-                        dataChoose = new ModelChoose<>(position, data);
+                        mChooseList.remove(modelChoose);
+                        notifyItemChanged(modelChoose.getPosition());//刷新前一个单选
+                        modelChoose = new ModelChoose<>(position, data);
+                        isChoose = true;
                     }
                 } else {
-                    cancelChoose = null;
-                    dataChoose = new ModelChoose<>(position, data);
+                    isChoose = true;
+                    modelChoose = new ModelChoose<>(position, data);
                 }
                 //刷新item
-                if (cancelChoose != null) {
-                    mChooseList.remove(cancelChoose);
-                    notifyCancelList.add(cancelChoose);
-                    notifyItemChanged(cancelChoose.getPosition());
+                if (isChoose) {
+                    mChooseList.add(modelChoose);
+                } else {
+                    mChooseList.remove(modelChoose);
                 }
-                if (dataChoose != null) {
-                    mChooseList.add(dataChoose);
-                    notifyChooseList.add(dataChoose);
-                    notifyItemChanged(dataChoose.getPosition());
-                }
+                notifyItemChanged(modelChoose.getPosition());
+
                 //通知选择回调
                 if (trigger) {
-                    notifySelected(holder, notifyChooseList, notifyCancelList);
+                    notifySelected(holder, modelChoose, isChoose);
                 }
                 break;
             default:
@@ -329,27 +334,6 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder, DA
         }
     }
 
-
-    private List<ModelChoose<DATA>> notifyChooseList = null;//用于传递选择事件的数据
-    private List<ModelChoose<DATA>> notifyCancelList = null;//用于传递取消选择事件的数据
-
-    private List<ModelChoose<DATA>> getNotifyChooseList() {
-        if (notifyChooseList == null) {
-            notifyChooseList = new ArrayList<>();
-        } else {
-            notifyChooseList.clear();
-        }
-        return notifyChooseList;
-    }
-
-    private List<ModelChoose<DATA>> getNotifyCancelList() {
-        if (notifyCancelList == null) {
-            notifyCancelList = new ArrayList<>();
-        } else {
-            notifyCancelList.clear();
-        }
-        return notifyCancelList;
-    }
 
     /**
      * @return position位置的数据在选择列表中的位置，小于0是未选择,
@@ -378,9 +362,9 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder, DA
     /**
      * 通知选择/未选择
      */
-    private void notifySelected(@Nullable VH holder, @NonNull List<ModelChoose<DATA>> chooseList, @NonNull List<ModelChoose<DATA>> cancelList) {
+    private void notifySelected(@Nullable VH holder, @NonNull ModelChoose<DATA> choose, boolean isChoose) {
         if (this.onRecyclerItemSelectedListener != null) {
-            this.onRecyclerItemSelectedListener.selected(holder, chooseList, cancelList);
+            this.onRecyclerItemSelectedListener.selected(holder, choose, isChoose);
         }
     }
 
@@ -432,7 +416,7 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder, DA
     }
 
     public void setDataList(List<DATA> list) {
-        this.dataList.clear();
+        clearData();
         if (list != null) {
             this.dataList.addAll(list);
         }
@@ -451,6 +435,10 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder, DA
             pos = this.dataList.size();
         }
         this.dataList.add(pos, data);
+    }
+
+    public void clearData() {
+        this.dataList.clear();
     }
 
     @NonNull
@@ -478,6 +466,7 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder, DA
     public void resetSelected() {
         if (this.chooseList != null) {
             this.chooseList.clear();
+            notifyOnUiThread();
         }
     }
 

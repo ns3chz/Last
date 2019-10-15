@@ -24,6 +24,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    dataBinding{
+        enabled = true
+    }
 }
 
 dependencies {
@@ -35,4 +38,5 @@ dependencies {
     implementation rootProject.ext.appcompat
     implementation rootProject.ext.constraintlayout
     implementation project(path: ':last')
+    implementation project(path: ':widget')
 }

@@ -1,5 +1,11 @@
 package com.zch.last.utils;
 
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.os.Build;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -166,4 +172,21 @@ public class UtilCom {
             return def;
         }
     }
+
+    @ColorInt
+    public static int getColor(Context context, @ColorRes int colorRes) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return context.getResources().getColor(colorRes, context.getTheme());
+        }
+        return context.getResources().getColor(colorRes);
+    }
+
+    public static ColorStateList getColorStateList(Context context, @ColorRes int colorRes) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return context.getColorStateList(colorRes);
+        }
+        return context.getResources().getColorStateList(colorRes);
+    }
+
+
 }

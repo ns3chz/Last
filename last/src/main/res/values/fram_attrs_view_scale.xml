@@ -13,6 +13,12 @@
         <attr name="known" />
     </declare-styleable>
 
+    <!-- ScaleRadioButton -->
+    <declare-styleable name="ScaleRadioButton">
+        <attr name="scale" />
+        <attr name="known" />
+    </declare-styleable>
+
     <!-- LinearLayout -->
     <declare-styleable name="ScaleLinearLayout">
         <attr name="scale" />

@@ -363,7 +363,7 @@ public class UtilView {
         imageView.setImageBitmap(bitmap);
         imageView.requestFocus();
         try {
-            if (tag != null && tag instanceof Bitmap) {
+            if ( tag instanceof Bitmap) {
                 ((Bitmap) tag).recycle();
             }
         } catch (Exception e) {

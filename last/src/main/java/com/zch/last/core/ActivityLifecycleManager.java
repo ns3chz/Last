@@ -19,7 +19,7 @@ public class ActivityLifecycleManager implements Application.ActivityLifecycleCa
     private static int instanceInt = 0;
     @NonNull
     private static final LinkedList<WeakReference<Activity>> activityLinkedList = new LinkedList<>();//保存activity的数组
-    private static final byte[] SYN_ACT_LIST = new byte[0];//lock
+    private static final Object SYN_ACT_LIST = new Object();//lock
 
     private static class Holder {
         static ActivityLifecycleManager INSTANCE = new ActivityLifecycleManager();
@@ -102,12 +102,12 @@ public class ActivityLifecycleManager implements Application.ActivityLifecycleCa
 
     @Override
     public void onActivityStarted(@NonNull Activity activity) {
-        moveActivityTop(activity);
         Logger.logFrame(getClass().getName(), "onActivityStarted:" + activity.hashCode());
     }
 
     @Override
     public void onActivityResumed(@NonNull Activity activity) {
+        moveActivityTop(activity);
         Logger.logFrame(getClass().getName(), "onActivityResumed:" + activity.hashCode());
     }
 

@@ -55,6 +55,34 @@ public class UtilDevice {
         return new int[]{dm.widthPixels, dm.heightPixels};
     }
 
+    /**
+     * parse dp to px
+     */
+    public static int dp2px(Context context, float dp) {
+        return (int) (dp * SystemParam.get(context).density + 0.5F);
+    }
+
+    /**
+     * parse px to dp
+     */
+    public static int px2dp(Context context, float px) {
+        return (int) (px / SystemParam.get(context).density + 0.5f);
+    }
+
+    /**
+     * parse sp to px
+     */
+    public static int sp2px(Context context, float sp) {
+        return (int) (sp * SystemParam.get(context).scaleDensity + 0.5f);
+    }
+
+    /**
+     * parse px to sp
+     */
+    public static int px2sp(Context context, float px) {
+        return (int) (px / SystemParam.get(context).scaleDensity + 0.5f);
+    }
+
 //    /**
 //     * 执行10000次，大约3800ms
 //     *
@@ -127,7 +155,7 @@ public class UtilDevice {
     public static String getImei(Context context) {
         String value = null;
         try {
-            if (PermissionChecker.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+            if (PermissionChecker.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PermissionChecker.PERMISSION_GRANTED) {
                 TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
                 if (telephonyManager != null) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

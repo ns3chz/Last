@@ -1,2 +1,2 @@
-include ':app', ':last', ':zxing-core3.3.3'
+include ':app', ':last', ':zxing-core3.3.3', ':widget'
 rootProject.name='Last'

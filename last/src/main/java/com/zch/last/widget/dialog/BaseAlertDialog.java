@@ -28,7 +28,7 @@ import com.zch.last.widget.statusbar.Statusbar;
  * Created by Administrator on 2017/6/20.
  */
 
-public abstract class BaseAlertDialog {
+public abstract class BaseAlertDialog<D extends BaseAlertDialog> {
     public Context mContext;
     protected AlertDialog.Builder dialogBuilder;
     public AlertDialog alertDialog;
@@ -45,7 +45,7 @@ public abstract class BaseAlertDialog {
     //    protected View statusBarView;
     //
     private int statusBarColor;
-    public Point displaySize;
+    protected Point displaySize;
 
     @LayoutRes
     private int layoutRes;
@@ -240,31 +240,33 @@ public abstract class BaseAlertDialog {
     /**
      * @param flag 点击弹框外隐藏
      */
-    public final void setCancelable(boolean flag) {
+    public final D setCancelable(boolean flag) {
         if (alertDialog != null) {
             alertDialog.setCancelable(flag);
         }
+        return (D) this;
     }
 
     /**
      * @param SCREEN_DIM //内容外的屏幕透明度，0~100%，默认0.4f
      */
-    public final void setScreenDim(@FloatRange(from = 0f, to = 1f) float SCREEN_DIM) {
+    public final D setScreenDim(@FloatRange(from = 0f, to = 1f) float SCREEN_DIM) {
         this.SCREEN_DIM = SCREEN_DIM;
         Window window = getWindow();
         WindowManager.LayoutParams layoutParams = getWindowLayoutParams();
         if (window != null && layoutParams != null) {
             layoutParams.dimAmount = SCREEN_DIM;
         }
+        return (D) this;
     }
 
     /**
      * @param width  //dialog宽度,0~1时为百分比
      * @param height //dialog高度
      */
-    public final void setDialogWH(float width, float height) {
+    public final D setDialogWH(float width, float height) {
         if (width < -2 || height < -2) {
-            return;
+            return (D) this;
         }
         settedWith = width;
         settedHeight = height;
@@ -289,6 +291,7 @@ public abstract class BaseAlertDialog {
                 layoutParams.height = (int) (height * point.y);
             }
         }
+        return (D) this;
     }
 
     public void refreshWindowLayoutParams() {
