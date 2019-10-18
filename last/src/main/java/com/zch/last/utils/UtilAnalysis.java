@@ -11,7 +11,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
 import java.lang.reflect.Type;
-import java.util.Arrays;
 
 /**
  * 解析工具
@@ -41,7 +40,7 @@ public class UtilAnalysis {
 
     @Nullable
     public static <T> T parseJson2Bean(String json, Type type) {
-        if (TextUtils.isEmpty(json)) {
+        if (json == null || json.length() == 0) {
             return null;
         }
         Gson mGson = new GsonBuilder().disableHtmlEscaping().create();//不进行unicode转译
@@ -90,7 +89,7 @@ public class UtilAnalysis {
         @NonNull
         public static <T> T[] decode(@NonNull T[] ts) {
             if (ts.length == 0) return ts;
-            int index = 0, segTemp = 0, seg =  ts.length / 2;
+            int index = 0, segTemp = 0, seg = ts.length / 2;
             T temp = null;
             while (seg > 0) {
                 ts = encode(ts, seg, index, temp, segTemp);
@@ -100,7 +99,7 @@ public class UtilAnalysis {
         }
 
         @NonNull
-        private static <T> T[] encode(@NonNull T[] ts, int seg, int index,@Nullable T temp, int segTemp) {
+        private static <T> T[] encode(@NonNull T[] ts, int seg, int index, @Nullable T temp, int segTemp) {
             index = -1;
             while ((index + 2 * seg) < ts.length) {
                 for (int i = 0; i < seg; i++) {

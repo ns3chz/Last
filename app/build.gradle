@@ -38,5 +38,4 @@ dependencies {
     implementation rootProject.ext.appcompat
     implementation rootProject.ext.constraintlayout
     implementation project(path: ':last')
-    implementation project(path: ':widget')
 }

@@ -13,9 +13,13 @@ ext {
     test_runner = "androidx.test:runner:1.2.0"
     espresso_core = "androidx.test.espresso:espresso-core:3.2.0"
 
-    rxjava = "io.reactivex.rxjava2:rxjava:2.1.14"
-    rxandroid = "io.reactivex.rxjava2:rxandroid:2.0.2"
-    gson = "com.google.code.gson:gson:2.8.5"
-    butterknife = "com.jakewharton:butterknife:10.1.0"
-    butterknife_compiler = "com.jakewharton:butterknife-compiler:10.1.0"
+    rxjava = "io.reactivex.rxjava2:rxjava:2.2.13"
+    rxandroid = "io.reactivex.rxjava2:rxandroid:2.1.1"
+    retrofit = "com.squareup.retrofit2:retrofit:2.6.2"
+    retrofit_converter_gson = "com.squareup.retrofit2:converter-gson:2.6.2"
+    retrofit_rxjava_adapter = "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0"
+    gson = "com.google.code.gson:gson:2.8.6"
+    zxing_core = "com.google.zxing:core:3.4.0"
+    butterknife = "com.jakewharton:butterknife:10.2.0"
+    butterknife_compiler = "com.jakewharton:butterknife-compiler:10.2.0"
 }
