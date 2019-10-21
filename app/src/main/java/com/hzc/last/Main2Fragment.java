@@ -1,33 +1,39 @@
 package com.hzc.last;
 
 import android.Manifest;
-import android.content.Intent;
+import android.app.Fragment;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.zch.last.utils.UtilPermission;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
-
+public class Main2Fragment extends Fragment {
     private TextView tvResult;
+    private View rootView;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        tvResult = findViewById(R.id.tv_result);
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.activity_main, null);
+        initView();
+        return rootView;
+    }
+
+    private void initView() {
+        tvResult = rootView.findViewById(R.id.tv_result);
+        rootView.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UtilPermission.request(MainActivity.this, 10, new String[]{
+                UtilPermission.request(Main2Fragment.this, 10, new String[]{
                         Manifest.permission.CAMERA,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE
 
@@ -47,12 +53,6 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

@@ -48,7 +48,7 @@ public abstract class BaseMVVMActivity<T extends ViewDataBinding> extends Activi
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        UtilPermission.listen(requestCode, permissions, grantResults);
+        UtilPermission.listen(this,requestCode, permissions, grantResults);
     }
 
     @Override
