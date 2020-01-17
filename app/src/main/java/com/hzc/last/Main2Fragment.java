@@ -23,7 +23,7 @@ public class Main2Fragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.activity_main, null);
+        rootView = inflater.inflate(R.layout.activity_main2, null);
         initView();
         return rootView;
     }

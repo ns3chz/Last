@@ -134,7 +134,6 @@ public class ActivityLifecycleManager implements Application.ActivityLifecycleCa
 
     //-------------------------------------manage method--------------------------------------------
 
-
     private void addActivity(@NonNull Activity activity) {
         synchronized (SYN_ACT_LIST) {
             activityLinkedList.addLast(new WeakReference<>(activity));

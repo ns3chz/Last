@@ -18,6 +18,17 @@ import java.lang.reflect.Type;
 public class UtilAnalysis {
 
     /**
+     * 文件大小单位
+     */
+    public enum SIZE {
+        B,
+        KB,
+        MB,
+        GB,
+        TB
+    }
+
+    /**
      * parse Json to class
      *
      * @param clazz bean
@@ -67,6 +78,52 @@ public class UtilAnalysis {
             e.printStackTrace();
         }
         return mJson == null ? "" : mJson;
+    }
+
+
+    /**
+     *
+     */
+    public static double formatSize(long bytes, @NonNull SIZE type) {
+        if (SIZE.B.equals(type)) {
+            return bytes;
+        }
+        float kb = bytes / 1024f;
+        if (SIZE.KB.equals(type)) {
+            return kb;
+        }
+        float mb = kb / 1024f;
+        if (SIZE.MB.equals(type)) {
+            return mb;
+        }
+        float gb = mb / 1024f;
+        if (SIZE.GB.equals(type)) {
+            return gb;
+        }
+        return gb / 1024f;
+    }
+
+    @NonNull
+    public static String byte2hex(byte b[]) {
+        if (b == null) {
+            return "";
+        }
+        StringBuilder hs = new StringBuilder();
+        String stmp;
+        for (int n = 0; n < b.length; n++) {
+            try {
+                stmp = Integer.toHexString(b[n] & 0xff);
+                if (stmp.length() == 1) {
+                    hs.append("0").append(stmp);
+                } else {
+                    hs.append(stmp);
+                }
+            } catch (Exception e) {
+                hs.append("??");
+            }
+
+        }
+        return hs.toString().toUpperCase();
     }
 
     /**
