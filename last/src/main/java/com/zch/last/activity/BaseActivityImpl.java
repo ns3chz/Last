@@ -3,16 +3,14 @@ package com.zch.last.activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-interface BaseActivityImpl {
+public interface BaseActivityImpl {
 
-    void beforeSupterCreate(@Nullable Bundle savedInstanceState);
+    boolean useButterKnife();
 
-    @LayoutRes
-    int initLayoutRes();
+    void setContentView(@Nullable Bundle savedInstanceState);
 
     void initIntent(@NonNull Intent intent);
 
@@ -21,4 +19,6 @@ interface BaseActivityImpl {
     void initListener();
 
     void initData();
+
+    void setTag(@NonNull String tag);
 }

@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import com.zch.last.utils.UtilSystem;
 
 /**
- *
+ *TODO 初始化设备信息
  */
 public class DeviceParams {
     public static float densityDpi;// unit dpi
@@ -43,15 +43,4 @@ public class DeviceParams {
         }
     }
 
-    /**
-     * 得到屏幕宽高
-     *
-     * @return {宽,高}
-     */
-    public static int[] getScreenSize(@NonNull Context context) {
-        DisplayMetrics mDisplayMetrics = context.getResources().getDisplayMetrics();
-        int widthPixels = mDisplayMetrics.widthPixels;
-        int heightPixels = mDisplayMetrics.heightPixels;
-        return new int[]{widthPixels, heightPixels};
-    }
 }

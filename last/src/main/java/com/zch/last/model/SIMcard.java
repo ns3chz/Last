@@ -180,10 +180,10 @@ public class SIMcard extends BaseCloneableModel {
                     TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                         siMcard.imsi = UtilReflect.call(telephonyManager,
-                                "getSubscriberId", new Class[]{int.class}, siMcard._id);
+                                "getSubscriberId", new Class[]{int.class}, true, siMcard._id);
                     } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) {
                         siMcard.imsi = UtilReflect.call(telephonyManager,
-                                "getSubscriberId", new Class[]{long.class}, siMcard._id);
+                                "getSubscriberId", new Class[]{long.class}, true, siMcard._id);
                     }
                     list.add(siMcard);
                 }
@@ -240,10 +240,10 @@ public class SIMcard extends BaseCloneableModel {
                         //获取imsi
                         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                             siMcard.imsi = UtilReflect.call(telephonyManager,
-                                    "getSubscriberId", new Class[]{int.class}, siMcard._id);
+                                    "getSubscriberId", new Class[]{int.class}, true, siMcard._id);
                         } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) {
                             siMcard.imsi = UtilReflect.call(telephonyManager,
-                                    "getSubscriberId", new Class[]{long.class}, siMcard._id);
+                                    "getSubscriberId", new Class[]{long.class}, true, siMcard._id);
                         }
                         siMcard.carrier_name = cursor.getString(cursor.getColumnIndex(COLUMN.carrier_name));
                         //

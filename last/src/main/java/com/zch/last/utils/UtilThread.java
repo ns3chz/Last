@@ -1,5 +1,7 @@
 package com.zch.last.utils;
 
+import android.os.Looper;
+
 import androidx.annotation.NonNull;
 
 import java.util.concurrent.TimeUnit;
@@ -65,4 +67,15 @@ public class UtilThread {
         });
     }
 
+
+    /**
+     * 是否在UI线程
+     */
+    public static boolean isMainthread() {
+        return Looper.myLooper() == Looper.getMainLooper();
+    }
+
+    public static void main(String[] a) {
+
+    }
 }

@@ -7,7 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.zch.last.constanse.Logger;
+import com.zch.last.utils.UtilLogger;
 
 import java.lang.ref.WeakReference;
 import java.util.LinkedList;
@@ -87,49 +87,49 @@ public class ActivityLifecycleManager implements Application.ActivityLifecycleCa
             }
         }
         msg.append("]");
-        Logger.logFrame("ActivityLifecycleManager", msg.toString());
+        UtilLogger.logV("ActivityLifecycleManager", msg.toString());
     }
 
     private ActivityLifecycleManager() {
-        Logger.logFrame(getClass().getName(), "INSTANCE CREATE : " + (++instanceInt));
+        UtilLogger.logV(getClass().getName(), "INSTANCE CREATE : " + (++instanceInt));
     }
 
     @Override
     public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle bundle) {
         addActivity(activity);
-        Logger.logFrame(getClass().getName(), "onActivityCreated:" + activity.hashCode());
+        UtilLogger.logV(getClass().getName(), "onActivityCreated:" + activity.hashCode());
     }
 
     @Override
     public void onActivityStarted(@NonNull Activity activity) {
-        Logger.logFrame(getClass().getName(), "onActivityStarted:" + activity.hashCode());
+        UtilLogger.logV(getClass().getName(), "onActivityStarted:" + activity.hashCode());
     }
 
     @Override
     public void onActivityResumed(@NonNull Activity activity) {
         moveActivityTop(activity);
-        Logger.logFrame(getClass().getName(), "onActivityResumed:" + activity.hashCode());
+        UtilLogger.logV(getClass().getName(), "onActivityResumed:" + activity.hashCode());
     }
 
     @Override
     public void onActivityPaused(@NonNull Activity activity) {
-        Logger.logFrame(getClass().getName(), "onActivityPaused:" + activity.hashCode());
+        UtilLogger.logV(getClass().getName(), "onActivityPaused:" + activity.hashCode());
     }
 
     @Override
     public void onActivityStopped(@NonNull Activity activity) {
-        Logger.logFrame(getClass().getName(), "onActivityStopped:" + activity.hashCode());
+        UtilLogger.logV(getClass().getName(), "onActivityStopped:" + activity.hashCode());
     }
 
     @Override
     public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle bundle) {
-        Logger.logFrame(getClass().getName(), "onActivitySaveInstanceState:" + activity.hashCode());
+        UtilLogger.logV(getClass().getName(), "onActivitySaveInstanceState:" + activity.hashCode());
     }
 
     @Override
     public void onActivityDestroyed(@NonNull Activity activity) {
         removeActivityFromLink(activity);
-        Logger.logFrame(getClass().getName(), "onActivityDestroyed:" + activity.hashCode());
+        UtilLogger.logV(getClass().getName(), "onActivityDestroyed:" + activity.hashCode());
     }
 
     //-------------------------------------manage method--------------------------------------------

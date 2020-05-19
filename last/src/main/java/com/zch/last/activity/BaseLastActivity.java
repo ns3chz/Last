@@ -1,40 +1,30 @@
 package com.zch.last.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 
+import androidx.activity.ComponentActivity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.zch.last.utils.UtilPermission;
+public abstract class BaseLastActivity extends ComponentActivity implements BaseActivityImpl {
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
-public abstract class BaseLastActivity extends Activity implements BaseActivityImpl {
-
-    private Unbinder unbinder;
+    private BaseActivityHolder activityHolder;
 
     /**
      * 不让子类继承
      */
     @Override
     protected final void onCreate(@Nullable Bundle savedInstanceState) {
+        activityHolder = new BaseActivityHolder(this, this);
+
+        this.createBefore(savedInstanceState);
         super.onCreate(savedInstanceState);
-        setContentView(initLayoutRes());
-        if (useButterKnife()) {
-            unbinder = ButterKnife.bind(this);
-        }
-        Intent intent = getIntent();
-        if (intent != null) {
-            initIntent(intent);
-        }
-        //
-        initView();
-        initListener();
-        initData();
+        this.createAfter(savedInstanceState);
+
+        activityHolder.onCreate(savedInstanceState);
     }
 
     /**
@@ -48,17 +38,26 @@ public abstract class BaseLastActivity extends Activity implements BaseActivityI
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (unbinder != null) {
-            unbinder.unbind();
+        if (activityHolder != null) {
+            activityHolder.onDestroy();
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        UtilPermission.listen(this,requestCode, permissions, grantResults);
+        if (activityHolder != null) {
+            activityHolder.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (activityHolder != null) {
+            activityHolder.onActivityResult(requestCode, resultCode, data);
+        }
+    }
     //**********************************************************************************************
     //**************************************_SELF_************************************************
     //**********************************************************************************************
@@ -67,7 +66,25 @@ public abstract class BaseLastActivity extends Activity implements BaseActivityI
         return false;
     }
 
+    protected void createBefore(@Nullable Bundle savedInstanceState) {
+        if (activityHolder != null) {
+            activityHolder.createBefore(savedInstanceState);
+        }
+    }
+
+    protected void createAfter(@Nullable Bundle savedInstanceState) {
+        if (activityHolder != null) {
+            activityHolder.createAfter(savedInstanceState);
+        }
+    }
+
+    /**
+     * @param tag 设置log的tag
+     */
     @Override
-    public void beforeSupterCreate(@Nullable Bundle savedInstanceState) {
+    public void setTag(@NonNull String tag) {
+        if (activityHolder != null) {
+            activityHolder.TAG = tag;
+        }
     }
 }

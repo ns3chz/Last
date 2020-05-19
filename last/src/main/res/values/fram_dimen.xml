@@ -2,7 +2,7 @@
 <resources>
     <dimen name="dialog_text_size_title">28sp</dimen>
     <dimen name="dialog_text_size_large">24sp</dimen>
-    <dimen name="dialog_text_size_nor">20sp</dimen>
+    <dimen name="dialog_text_size_nor">21sp</dimen>
     <dimen name="dialog_text_size_small">18sp</dimen>
     <dimen name="dialog_title_height">60dp</dimen>
     <dimen name="dialog_btn_height">40dp</dimen>

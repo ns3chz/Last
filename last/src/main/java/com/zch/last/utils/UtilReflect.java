@@ -30,13 +30,7 @@ public class UtilReflect {
     @Nullable
     public static <T> T newInstance(@NonNull Object object, Class<?>[] classArr, Object... params) {
         Class<?> clazz = object.getClass();
-        T o = null;
-        try {
-            o = (T) newInstance(clazz, classArr, params);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return o;
+        return (T) newInstance(clazz, classArr, params);
 
     }
 
@@ -73,10 +67,10 @@ public class UtilReflect {
      */
     @Nullable
     public static <T> T newInstance(@NonNull Constructor constructor, Object... params) {
-        constructor.setAccessible(true);
         T newInstance = null;
 
         try {
+            constructor.setAccessible(true);
             newInstance = (T) constructor.newInstance(params);
         } catch (Exception e) {
             e.printStackTrace();
@@ -93,43 +87,18 @@ public class UtilReflect {
      * @param fieldClasses 参数返回类型
      * @param fields       方法需要的参数
      * @param <T>          某类
-     */
-    @Nullable
-    public static <T> T call(@NonNull Object obj, String methodName, Class<?>[] fieldClasses, Object... fields) {
-        Class<?> tClass = obj.getClass();
-        Method method;
-        try {
-            method = tClass.getDeclaredMethod(methodName, fieldClasses);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            return null;
-        }
-        T t = null;
-        try {
-            method.setAccessible(true);
-            t = (T) method.invoke(obj, fields);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return t;
-    }
-
-    /**
-     * 调用某类的方法
-     *
-     * @param obj          某类对象
-     * @param clazz        父类
-     * @param methodName   方法名
-     * @param fieldClasses 参数返回类型
-     * @param fields       方法需要的参数
-     * @param <T>          某类
      * @return 返回值
      */
     @Nullable
-    public static <T> T call(@NonNull Object obj, @NonNull Class<?> clazz, @NonNull String methodName, Class<?>[] fieldClasses, Object... fields) {
+    public static <T> T call(@NonNull Object obj, @NonNull String methodName,@Nullable Class<?>[] fieldClasses, boolean declared, Object... fields) {
+        Class<?> clazz = obj.getClass();
         Method method;
         try {
-            method = clazz.getDeclaredMethod(methodName, fieldClasses);
+            if (declared) {
+                method = clazz.getDeclaredMethod(methodName, fieldClasses);
+            } else {
+                method = clazz.getMethod(methodName, fieldClasses);
+            }
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
             return null;
@@ -145,47 +114,38 @@ public class UtilReflect {
     }
 
     /**
-     * @param obj       某类对象
-     * @param fieldName 成员变量名
-     * @param <T>       某类
-     * @return 获取成员变量值
+     * 调用父类无法正常访问到的方法（private，protected）
      */
-    @Nullable
-    public static <T> T getField(@NonNull Object obj, @NonNull String fieldName) {
-        if (fieldName.length() == 0) return null;
-        Class<?> aClass = obj.getClass();
-        Field field;
+    public static <T> T callSuperMethod(Object obj, SearchComparable<Method> comparable, Object... args) {
+        if (obj == null || comparable == null) return null;
+        Method method = findMethod(obj, comparable);
+        if (method == null) return null;
+        T invoke = null;
         try {
-            field = aClass.getDeclaredField(fieldName);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-            return null;
-        }
-        T t = null;
-        try {
-            field.setAccessible(true);
-            t = (T) field.get(obj);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            invoke = (T) method.invoke(obj, args);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return t;
+        return invoke;
     }
 
     /**
      * @param obj       某类对象
-     * @param clazz     父类
      * @param fieldName 成员变量名
      * @param <T>       某类
      * @return 获取成员变量值
      */
     @Nullable
-    public static <T> T getField(@NonNull Object obj, @NonNull Class<?> clazz, @NonNull String fieldName) {
+    public static <T> T getField(@NonNull Object obj, @NonNull String fieldName, boolean declared) {
         if (fieldName.length() == 0) return null;
+        Class<?> clazz = obj.getClass();
         Field field;
         try {
-            field = clazz.getDeclaredField(fieldName);
+            if (declared) {
+                field = clazz.getDeclaredField(fieldName);
+            } else {
+                field = clazz.getField(fieldName);
+            }
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
             return null;
@@ -205,53 +165,115 @@ public class UtilReflect {
     /**
      * 设置成员变量值
      *
-     * @param obj       某类对象
-     * @param fieldName 成员变量名
-     * @param value     修改值
+     * @param obj        某类对象
+     * @param value      修改值
+     * @param comparable 对比找到参数
+     * @return 设置结果
      */
-    public static void setField(@NonNull Object obj, @NonNull String fieldName, Object value) {
-        if (fieldName.length() == 0) return;
-        Class<?> aClass = obj.getClass();
-        Field field;
+    public static boolean setFieldValue(Object obj, Object value, SearchComparable<Field> comparable) {
+        if (obj == null || comparable == null) return false;
+        Object field = findField(obj, comparable);
+        if (field == null) return false;
+        if (comparable.dataFrom == null) return false;
         try {
-            field = aClass.getDeclaredField(fieldName);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-            return;
-        }
-        try {
-            field.setAccessible(true);
-            field.set(obj, value);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            comparable.dataFrom.set(field, value);
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     /**
-     * @param obj       某类对象
-     * @param clazz     父类
-     * @param fieldName 成员变量名
-     * @param value     修改值
+     * @param object     对象
+     * @param comparable 对比
      */
-    public static void setField(@NonNull Object obj, @NonNull Class<?> clazz, @NonNull String fieldName, Object value) {
-        if (fieldName.length() == 0) return;
-        Field field;
-        try {
-            field = clazz.getDeclaredField(fieldName);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-            return;
+    @Nullable
+    public static <T> T findField(Object object, SearchComparable<Field> comparable) {
+        if (object == null || comparable == null) return null;
+        Class<?> findClass = object.getClass();
+        Field[] fields;
+        T data = null;
+        boolean findOut = false;
+        while (findClass != null) {
+            fields = findClass.getDeclaredFields();
+            if (fields.length == 0) return null;
+            for (Field field : fields) {
+                try {
+                    field.setAccessible(true);
+                    if (comparable.findOut(field)) {
+                        data = (T) field.get(object);
+                        comparable.dataFrom = field;
+                        findOut = true;
+                        break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (findOut) {
+                break;
+            }
+            if (comparable.findSuper()) {
+                findClass = findClass.getSuperclass();
+            }
         }
-        try {
-            field.setAccessible(true);
-            field.set(obj, value);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        return data;
     }
 
+    /**
+     * @param object     对象
+     * @param comparable 对比
+     */
+    @Nullable
+    public static Method findMethod(Object object, SearchComparable<Method> comparable) {
+        if (object == null || comparable == null) return null;
+        Class<?> findClass = object.getClass();
+        Method[] methods;
+        while (findClass != null) {
+            methods = findClass.getDeclaredMethods();
+            if (methods.length == 0) return null;
+            for (Method method : methods) {
+                try {
+                    method.setAccessible(true);
+                    if (comparable.findOut(method)) {
+                        comparable.dataFrom = method;
+                        return method;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (comparable.findSuper()) {
+                findClass = findClass.getSuperclass();
+            }
+        }
+        return null;
+    }
+
+    public static abstract class SearchComparable<T> {
+        private boolean findSuper = false;
+        @Nullable
+        public T dataFrom;
+
+        public SearchComparable() {
+        }
+
+        public SearchComparable(boolean findSuper) {
+            this.findSuper = findSuper;
+        }
+
+        /**
+         * @return 到父类中找
+         */
+        public boolean findSuper() {
+            return findSuper;
+        }
+
+        /**
+         * @param obj 当前对比对象
+         * @return 找到返回true
+         */
+        public abstract boolean findOut(@NonNull T obj);
+    }
 }

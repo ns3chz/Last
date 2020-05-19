@@ -1,62 +1,30 @@
 package com.hzc.last;
 
+import android.app.job.JobScheduler;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
+import android.os.BatteryManager;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.PowerManager;
+import android.util.ArrayMap;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.OnLifecycleEvent;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
+import com.zch.last.activity.BaseLastActivity;
+import com.zch.last.model.clickview.TextViewClick;
+import com.zch.last.utils.UtilAlert;
+import com.zch.last.utils.UtilToast;
+import com.zch.last.widget.alert.GlobalAlertAsk;
 import com.zch.last.widget.dialog.DialogAsk;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, LifecycleObserver {
+public class MainActivity extends BaseLastActivity implements View.OnClickListener {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        findViewById(R.id.button).setOnClickListener(this);
-        getLifecycle().addObserver(this);
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    public void onCreate() {
-        Log.d("OnLifecycleEvent", "ON_CREATE");
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    public void start() {
-        Log.d("OnLifecycleEvent", "ON_START");
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    public void resume() {
-        Log.d("OnLifecycleEvent", "ON_RESUME");
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    public void pause() {
-        Log.d("OnLifecycleEvent", "ON_PAUSE");
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    public void stop() {
-        Log.d("OnLifecycleEvent", "ON_STOP");
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    public void destroy() {
-        Log.d("OnLifecycleEvent", "ON_DESTROY");
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
-    public void any() {
-        Log.d("OnLifecycleEvent", "ON_ANY");
-    }
-
+    private final String wakeTag = "com.hzc.last:myWakeLock";
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -66,6 +34,78 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .setTitleText("弹出了框框");
                 dialogAsk.show();
                 break;
+            case R.id.button1:
+                break;
+            case R.id.button2:
+                showAlert();
+                break;
         }
     }
+
+    private GlobalAlertAsk globalAlertAsk;
+
+    private void showAlert() {
+        globalAlertAsk = UtilAlert.showGlobalAlertDefaultAsk(this, "警告", "程序崩溃,即将推出", true
+                , new TextViewClick("退出") {
+                    @Override
+                    public void onClick(View v) {
+                        System.exit(0);
+
+                    }
+                }, new TextViewClick("弹出新对话框") {
+                    @Override
+                    public void onClick(View v) {
+                        globalAlertAsk.dissmiss();
+                        globalAlertAsk = UtilAlert.showGlobalAlertDefaultAsk(getApplicationContext(), "新标题", "新内容", false,
+                                new TextViewClick("好的") {
+                                    @Override
+                                    public void onClick(View v) {
+                                        globalAlertAsk.dissmiss();
+                                        UtilToast.toast("关闭");
+                                    }
+
+                                    @Override
+                                    public void prepare(TextView view) {
+                                        view.setTextColor(Color.RED);
+                                        view.setBackgroundColor(Color.BLACK);
+                                    }
+                                });
+
+                    }
+                }, new TextViewClick("否") {
+                    @Override
+                    public void onClick(View v) {
+                        globalAlertAsk.viewModel.refreshButtonLines();
+                        UtilToast.toast("否");
+
+                    }
+                });
+    }
+
+    @Override
+    public void setContentView(@Nullable Bundle savedInstanceState) {
+        setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    public void initIntent(@NonNull Intent intent) {
+    }
+
+    @Override
+    public void initView() {
+        findViewById(R.id.button).setOnClickListener(this);
+        findViewById(R.id.button1).setOnClickListener(this);
+        findViewById(R.id.button2).setOnClickListener(this);
+    }
+
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
+    public void initData() {
+
+    }
+
 }

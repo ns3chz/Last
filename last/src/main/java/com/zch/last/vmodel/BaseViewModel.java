@@ -1,24 +1,38 @@
 package com.zch.last.vmodel;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 
-import com.zch.last.activity.ImpActivityLifeCycle;
-
-import java.lang.ref.WeakReference;
-
-public abstract class BaseViewModel implements ImpActivityLifeCycle {
+public abstract class BaseViewModel<VDB extends ViewDataBinding> {
     @NonNull
-    protected final WeakReference<Activity> wrActivity;
+    public final VDB dataBinding;
+    @NonNull
+    public final Context context;
+    @NonNull
+    public final LayoutInflater layoutInflater;
 
-    public BaseViewModel(@NonNull Activity activity) {
-        this.wrActivity = new WeakReference<>(activity);
+    public BaseViewModel(@NonNull Context context, @NonNull View view) {
+        this.context = context;
+        this.layoutInflater = LayoutInflater.from(context);
+
+        VDB bind = DataBindingUtil.bind(view);
+        if (bind == null) {
+            throw new IllegalArgumentException("dataBinding is NULL !!!");
+        }
+        dataBinding = bind;
+        init(view);
+        initListener(view);
+        initData(view);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public abstract void init(@NonNull View root);
 
-    }
+    public abstract void initListener(@NonNull View root);
+
+    public abstract void initData(@NonNull View root);
 }

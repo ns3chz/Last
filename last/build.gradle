@@ -35,6 +35,9 @@ dependencies {
     implementation rootProject.ext.appcompat
     implementation rootProject.ext.constraintlayout
 
+    def lifecycle_version = "1.1.1"
+    api "android.arch.lifecycle:common-java8:$lifecycle_version"
+
     implementation rootProject.ext.support_design
     implementation rootProject.ext.rxjava
     implementation rootProject.ext.rxandroid

@@ -1,5 +1,8 @@
 package com.zch.last.utils;
 
+import android.app.AlarmManager;
+import android.app.Application;
+import android.app.PendingIntent;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -216,5 +219,22 @@ public class UtilSystem {
         } else {
             manager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+    /**
+     * @param timeDelay 延迟重启时间
+     */
+    public static boolean prepareRestartApp(@NonNull Application app, long timeDelay) {
+        try {
+            Intent intent = app.getPackageManager().getLaunchIntentForPackage(app.getPackageName());
+            PendingIntent restartIntent = PendingIntent.getActivity(app, 0, intent, 0);
+            AlarmManager mgr = (AlarmManager) app.getSystemService(Context.ALARM_SERVICE);
+
+            mgr.set(AlarmManager.RTC, timeDelay, restartIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }

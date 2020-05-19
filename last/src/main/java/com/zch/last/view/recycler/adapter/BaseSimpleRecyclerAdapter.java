@@ -68,7 +68,7 @@ public abstract class BaseSimpleRecyclerAdapter<T> extends BaseWarpRecyclerAdapt
                         }
                     } else {
                         if (fieldNames != null && i < fieldNames.length) {
-                            fieldValue = UtilReflect.getField(data, fieldNames[i]);
+                            fieldValue = UtilReflect.getField(data, fieldNames[i],true);
                         }
                     }
                 }
