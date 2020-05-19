@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/trans_dark_30">
+
+        <LinearLayout
+            android:id="@+id/container_body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_theme_light_alert"
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="4dp">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/DEF_TEXT_VIEW"
+                android:gravity="center"
+                android:textSize="@dimen/dialog_text_size_title"
+                android:text="标题"
+                android:visibility="gone" />
+
+            <View
+                android:id="@+id/line_title"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layerType="software"
+                android:background="@color/gray_line"
+                android:visibility="gone" />
+
+            <ScrollView
+                android:id="@+id/container_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tv_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="contentcontentcontentcontentcontent"
+                    style="@style/DEF_TEXT_VIEW" />
+
+            </ScrollView>
+
+            <View
+                android:id="@+id/line_content"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layerType="software"
+                android:background="@color/gray_line"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/container_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    style="@style/DEF_TEXT_VIEW"
+                    android:text="sdfsdf"/>
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    style="@style/DEF_TEXT_VIEW"
+                    android:text="sdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsf"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>
