@@ -11,6 +11,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public abstract class BaseLastFragmentActivity extends FragmentActivity implements BaseActivityImpl {
 
     public void replace(@IdRes int containerViewId, @NonNull Fragment fragment) {
@@ -18,20 +21,31 @@ public abstract class BaseLastFragmentActivity extends FragmentActivity implemen
         fragmentTransaction.replace(containerViewId, fragment).commit();
     }
 
-    private BaseActivityHolder activityHolder;
+    private Unbinder unbinder = null;
 
     /**
      * 不让子类继承
      */
     @Override
     protected final void onCreate(@Nullable Bundle savedInstanceState) {
-        activityHolder = new BaseActivityHolder(this, this);
 
         this.createBefore(savedInstanceState);
         super.onCreate(savedInstanceState);
         this.createAfter(savedInstanceState);
 
-        activityHolder.onCreate(savedInstanceState);
+        this.onCreated(savedInstanceState);
+
+        if (useButterKnife()) {
+            unbinder = ButterKnife.bind(this);
+        }
+
+        this.initIntent(getIntent());
+
+        this.initView();
+
+        this.initListener();
+
+        this.initData();
     }
 
     /**
@@ -45,45 +59,37 @@ public abstract class BaseLastFragmentActivity extends FragmentActivity implemen
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (activityHolder != null) {
-            activityHolder.onDestroy();
+        if (unbinder != null) {
+            unbinder.unbind();
         }
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (activityHolder != null) {
-            activityHolder.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (activityHolder != null) {
-            activityHolder.onActivityResult(requestCode, resultCode, data);
-        }
     }
     //**********************************************************************************************
     //**************************************_SELF_************************************************
     //**********************************************************************************************
 
+
+    @Override
     public boolean useButterKnife() {
         return false;
     }
 
     protected void createBefore(@Nullable Bundle savedInstanceState) {
-        if (activityHolder != null) {
-            activityHolder.createBefore(savedInstanceState);
-        }
+
     }
 
     protected void createAfter(@Nullable Bundle savedInstanceState) {
-        if (activityHolder != null) {
-            activityHolder.createAfter(savedInstanceState);
-        }
+
     }
 
     /**
@@ -91,8 +97,6 @@ public abstract class BaseLastFragmentActivity extends FragmentActivity implemen
      */
     @Override
     public void setTag(@NonNull String tag) {
-        if (activityHolder != null) {
-            activityHolder.TAG = tag;
-        }
+
     }
 }

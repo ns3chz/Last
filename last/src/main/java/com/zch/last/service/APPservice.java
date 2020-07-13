@@ -12,18 +12,24 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+/**
+ * TODO TEST
+ */
 public class APPservice extends Service {
     private static APPservice apPservice;
+
     public static APPservice get(Context context) {
         if (apPservice != null) {
-            return    apPservice;
+            return apPservice;
         }
         return new APPservice();
     }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         return super.onStartCommand(intent, flags, startId);
     }
+
     public void showAlert() {
         WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         WindowManager.LayoutParams params = new WindowManager.LayoutParams();

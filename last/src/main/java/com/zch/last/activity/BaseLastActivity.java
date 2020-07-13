@@ -8,23 +8,36 @@ import androidx.activity.ComponentActivity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public abstract class BaseLastActivity extends ComponentActivity implements BaseActivityImpl {
 
-
-    private BaseActivityHolder activityHolder;
+    private Unbinder unbinder = null;
 
     /**
      * 不让子类继承
      */
     @Override
     protected final void onCreate(@Nullable Bundle savedInstanceState) {
-        activityHolder = new BaseActivityHolder(this, this);
 
         this.createBefore(savedInstanceState);
         super.onCreate(savedInstanceState);
         this.createAfter(savedInstanceState);
 
-        activityHolder.onCreate(savedInstanceState);
+        this.onCreated(savedInstanceState);
+
+        if (useButterKnife()) {
+            unbinder = ButterKnife.bind(this);
+        }
+
+        this.initIntent(getIntent());
+
+        this.initView();
+
+        this.initListener();
+
+        this.initData();
     }
 
     /**
@@ -38,44 +51,37 @@ public abstract class BaseLastActivity extends ComponentActivity implements Base
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (activityHolder != null) {
-            activityHolder.onDestroy();
+        if (unbinder != null) {
+            unbinder.unbind();
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (activityHolder != null) {
-            activityHolder.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (activityHolder != null) {
-            activityHolder.onActivityResult(requestCode, resultCode, data);
-        }
     }
     //**********************************************************************************************
     //**************************************_SELF_************************************************
     //**********************************************************************************************
 
+
+    @Override
     public boolean useButterKnife() {
         return false;
     }
 
     protected void createBefore(@Nullable Bundle savedInstanceState) {
-        if (activityHolder != null) {
-            activityHolder.createBefore(savedInstanceState);
-        }
+
     }
 
     protected void createAfter(@Nullable Bundle savedInstanceState) {
-        if (activityHolder != null) {
-            activityHolder.createAfter(savedInstanceState);
-        }
+
     }
 
     /**
@@ -83,8 +89,6 @@ public abstract class BaseLastActivity extends ComponentActivity implements Base
      */
     @Override
     public void setTag(@NonNull String tag) {
-        if (activityHolder != null) {
-            activityHolder.TAG = tag;
-        }
+
     }
 }

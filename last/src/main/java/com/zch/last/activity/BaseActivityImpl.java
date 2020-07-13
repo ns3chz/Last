@@ -10,9 +10,9 @@ public interface BaseActivityImpl {
 
     boolean useButterKnife();
 
-    void setContentView(@Nullable Bundle savedInstanceState);
+    void onCreated(@Nullable Bundle savedInstanceState);
 
-    void initIntent(@NonNull Intent intent);
+    void initIntent(@Nullable Intent intent);
 
     void initView();
 

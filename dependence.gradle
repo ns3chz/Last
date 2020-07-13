@@ -20,6 +20,6 @@ ext {
     retrofit_rxjava_adapter = "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0"
     gson = "com.google.code.gson:gson:2.8.6"
     zxing_core = "com.google.zxing:core:3.4.0"
-    butterknife = "com.jakewharton:butterknife:10.2.0"
-    butterknife_compiler = "com.jakewharton:butterknife-compiler:10.2.0"
+    butterknife = "com.jakewharton:butterknife:10.2.1"
+    butterknife_compiler = "com.jakewharton:butterknife-compiler:10.2.1"
 }

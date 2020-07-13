@@ -6,6 +6,11 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name="com.zch.last.core.LastApplication"
@@ -14,7 +19,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity2">
+        <activity
+            android:name=".launchmode.Standard"
+            android:screenOrientation="unspecified"
+            android:configChanges="screenSize"
+            android:launchMode="standard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -22,13 +31,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".launchmode.SingleTop"
+            android:screenOrientation="unspecified"
+            android:launchMode="singleTop" />
+
+        <activity
+            android:name=".launchmode.SingleTask"
+            android:screenOrientation="unspecified"
+            android:launchMode="singleTask" />
+
+        <activity
+            android:name=".launchmode.SingleInstance"
+            android:screenOrientation="unspecified"
+            android:launchMode="singleInstance" />
+
         <provider
             android:authorities="${applicationId}.fileProvider"
             android:name="androidx.core.content.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
-            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_provider"/>
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider" />
         </provider>
     </application>
 

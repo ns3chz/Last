@@ -13,25 +13,29 @@ import androidx.databinding.ViewDataBinding;
 
 public abstract class BaseMVVMActivity<T extends ViewDataBinding> extends Activity implements BaseActivityImpl {
     protected T viewDataBinding;
-    private BaseActivityHolder activityHolder;
 
     /**
      * 不让子类继承
      */
     @Override
     protected final void onCreate(@Nullable Bundle savedInstanceState) {
-        activityHolder = new BaseActivityHolder(this, this);
 
         this.createBefore(savedInstanceState);
         super.onCreate(savedInstanceState);
         viewDataBinding = DataBindingUtil.setContentView(this, setContentRes());
         this.createAfter(savedInstanceState);
 
-        activityHolder.onCreate(savedInstanceState);
+        this.initIntent(getIntent());
+
+        this.initView();
+
+        this.initListener();
+
+        this.initData();
     }
 
     @Override
-    public final void setContentView(@Nullable Bundle savedInstanceState) {
+    public void onCreated(@Nullable Bundle savedInstanceState) {
 
     }
 
@@ -50,44 +54,31 @@ public abstract class BaseMVVMActivity<T extends ViewDataBinding> extends Activi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (activityHolder != null) {
-            activityHolder.onDestroy();
-        }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (activityHolder != null) {
-            activityHolder.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (activityHolder != null) {
-            activityHolder.onActivityResult(requestCode, resultCode, data);
-        }
     }
     //**********************************************************************************************
     //**************************************_SELF_************************************************
     //**********************************************************************************************
 
-    public boolean useButterKnife() {
+
+    @Override
+    public final boolean useButterKnife() {
         return false;
     }
 
     protected void createBefore(@Nullable Bundle savedInstanceState) {
-        if (activityHolder != null) {
-            activityHolder.createBefore(savedInstanceState);
-        }
     }
 
     protected void createAfter(@Nullable Bundle savedInstanceState) {
-        if (activityHolder != null) {
-            activityHolder.createAfter(savedInstanceState);
-        }
     }
 
     /**
@@ -95,8 +86,5 @@ public abstract class BaseMVVMActivity<T extends ViewDataBinding> extends Activi
      */
     @Override
     public void setTag(@NonNull String tag) {
-        if (activityHolder != null) {
-            activityHolder.TAG = tag;
-        }
     }
 }

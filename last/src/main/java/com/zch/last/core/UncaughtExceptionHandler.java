@@ -148,7 +148,9 @@ class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
                     .append(calendar.get(Calendar.DAY_OF_MONTH)).append("_\n");
             builder.append(threadMsg).append("\n")
                     .append(throwableMsg).append("\n\n");
-            UtilFiles.writeText(getErrorLogFile(), builder.toString(), true);
+            String error = builder.toString();
+            log(error);
+            UtilFiles.writeText(getErrorLogFile(), error, true);
         }
 
     }

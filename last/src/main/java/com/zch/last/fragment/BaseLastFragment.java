@@ -19,11 +19,11 @@ abstract class BaseLastFragment extends Fragment {
 
     protected abstract void initData();
 
-    public void finish() {
-        finish(0);
+    public void finishActivity() {
+        finishActivity(0);
     }
 
-    public void finish(long delay) {
+    public void finishActivity(long delay) {
         if (getActivity() != null) {
             if (delay <= 0) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -39,7 +39,7 @@ abstract class BaseLastFragment extends Fragment {
                 UtilThread.runOnUiThread(delay, new Runnable() {
                     @Override
                     public void run() {
-                        finish(0);
+                        finishActivity(0);
                     }
                 });
             }

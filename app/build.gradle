@@ -53,6 +53,6 @@ dependencies {
     implementation rootProject.ext.constraintlayout
     implementation project(path: ':last')
 
-    implementation "org.permissionsdispatcher:permissionsdispatcher:4.7.0"
-    annotationProcessor "org.permissionsdispatcher:permissionsdispatcher-processor:4.7.0"
+    implementation rootProject.ext.butterknife
+    annotationProcessor rootProject.ext.butterknife_compiler
 }
